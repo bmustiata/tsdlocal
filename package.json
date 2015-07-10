@@ -1,0 +1,33 @@
+{
+  "name": "tsdlocal",
+  "description": "Rewrite .d.ts definitions as local modules.",
+  "author": {
+    "name": "Bogdan Mustiata",
+    "email": "bogdan.mustiata@gmail.com"
+  },
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-typescript": "^0.6.2"
+  },
+  "keywords": [],
+  "main": "./lib/tsdlocal.js",
+  "bugs": {
+    "url": "https://github.com/bmustiata/tsdlocal/issues"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/bmustiata/tsdlocal/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmustiata/tsdlocal.git"
+  },
+  "readme": "Rewrite .d.ts definitions as local modules.",
+  "readmeFilename": "README.md",
+  "homepage": "http://blog.ciplogic.com"
+}
