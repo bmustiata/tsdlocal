@@ -5,7 +5,7 @@
     "name": "Bogdan Mustiata",
     "email": "bogdan.mustiata@gmail.com"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "colors": "^1.1.2",
     "nomnom": "^1.8.1",
@@ -39,7 +39,7 @@
     "type": "git",
     "url": "https://github.com/bmustiata/tsdlocal.git"
   },
-  "readme": "# tsdlocal\nTransform `.d.ts` files to look like local modules. Then rewrite your\noutput javascript file to use actual `require()` statements. All this\nwithout using `--module` in tsc.\n## Usage\n```\ntsdlocal in.d.ts out.d.ts\n```\n```\ntsdlocal --parsejs in.js out.js\n```\n## ChangeLog\nv0.1.0  2015-07-10  Initial implementation.\n",
+  "readme": "# tsdlocal\nTransform `.d.ts` files to look like local modules. Then rewrite your\noutput javascript file to use actual `require()` statements. All this\nwithout using `--module` in tsc.\n## Usage\n```\ntsdlocal in.d.ts out.local.d.ts\n```\n```\ntsdlocal --parsejs in.js out.js\n```\n## Note\nThere is a high chance that the local .d.ts to still need a bit\nof fidling from your side, namely for modules that export instances\nfor the exports. Like so:\n```typescript\ndeclare module \"x\" {\n    export = someInstance;\n}\n```\nIf that's the case, then you probably need to assign a variable, declare\nthe variable with the name `__require__x`, and the type of the instance:\n```typescript\ndeclare var __require__x : someInstanceType;\n```\n and in the client do:\n```typescript\n// instead of:\n//\n// import mymodule = __require__x; // require(\"x\")\n//\n// do:\nvar mymodule = __require__x; // require(\"x\")\n```\nThe static type checking will still function as expected.\n## ChangeLog\nv0.1.1  2015-07-14  Documentation update.\nv0.1.0  2015-07-10  Initial implementation.\n",
   "readmeFilename": "README.md",
   "homepage": "http://blog.ciplogic.com"
 }

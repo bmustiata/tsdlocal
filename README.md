@@ -48,5 +48,6 @@ The static type checking will still function as expected.
 
 ## ChangeLog
 
+v0.1.1  2015-07-14  Documentation update.
 v0.1.0  2015-07-10  Initial implementation.
 
