@@ -6,14 +6,26 @@
     "email": "bogdan.mustiata@gmail.com"
   },
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "colors": "^1.1.2",
+    "nomnom": "^1.8.1",
+    "shelljs": "^0.5.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
+    "grunt-sync": "^0.2.3",
     "grunt-typescript": "^0.6.2"
   },
-  "keywords": [],
-  "main": "./lib/tsdlocal.js",
+  "keywords": [
+    "tsd-generator",
+    "tsd",
+    "local-module"
+  ],
+  "bin": {
+    "tsdlocal": "target/launcher.js"
+  },
+  "main": "./target/out-local.js",
   "bugs": {
     "url": "https://github.com/bmustiata/tsdlocal/issues"
   },
@@ -27,7 +39,7 @@
     "type": "git",
     "url": "https://github.com/bmustiata/tsdlocal.git"
   },
-  "readme": "Rewrite .d.ts definitions as local modules.",
+  "readme": "# tsdlocal\nTransform `.d.ts` files to look like local modules. Then rewrite your\noutput javascript file to use actual `require()` statements. All this\nwithout using `--module` in tsc.\n## Usage\n```\ntsdlocal in.d.ts out.d.ts\n```\n```\ntsdlocal --parsejs in.js out.js\n```\n## ChangeLog\nv0.1.0  2015-07-10  Initial implementation.\n",
   "readmeFilename": "README.md",
   "homepage": "http://blog.ciplogic.com"
 }

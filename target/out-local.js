@@ -44,9 +44,9 @@ var DefinitionTransformer = (function () {
 /// <reference path="../../../typings/node/node.local.d.ts"/>
 /// <reference path="../../../typings/nomnom/nomnom.local.d.ts"/>
 /// <reference path="../../../typings/colors/colors.local.d.ts"/>
-var fs = __require__fs; // require("fs")
-var nomnom = __require__nomnom; // require("nomnom")
-var colors = __require__colors; // require("colors/safe")
+var fs = require("fs"); // __require__fs
+var nomnom = require("nomnom"); // __require__nomnom
+var colors = require("colors/safe"); // __require__colors
 /// <reference path="ContentTransformer"/>
 /// <reference path="requires"/>
 /**

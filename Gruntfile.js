@@ -21,6 +21,16 @@ module.exports = function(grunt) {
             }
         },
 
+        sync : {
+            dist : {
+                // pretend: true,
+                verbose: true,
+                files : [
+                    { expand: true, cwd: 'src/main/core', src: ['**/*.js'], dest: 'target/' }
+                ]
+            }
+        },
+
         clean: {
             dist : [
                 "target/"
@@ -32,8 +42,9 @@ module.exports = function(grunt) {
     // grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-typescript');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-sync');
 
     // register our tasks:
-    grunt.registerTask('default', ['clean:dist', 'typescript:dist']);
+    grunt.registerTask('default', ['clean:dist', 'typescript:dist', 'sync:dist']);
 };
 
