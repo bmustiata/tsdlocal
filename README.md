@@ -6,12 +6,24 @@ without using `--module` in tsc.
 
 ## Usage
 
+To generate a definition:
+
 ```
 tsdlocal in.d.ts out.local.d.ts
 ```
 
+To process code that uses local definitions.
+
 ```
 tsdlocal --parsejs in.js out.js
+```
+
+For example for using the `require("path")`, you would need to write:
+
+```typescript
+/// <reference path="/typings/node/node.local.d.ts"/>
+
+import path = __require__path; // require("path")
 ```
 
 ## Grunt Parsing
