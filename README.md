@@ -14,6 +14,45 @@ tsdlocal in.d.ts out.local.d.ts
 tsdlocal --parsejs in.js out.js
 ```
 
+## Grunt Parsing
+
+Grunt support is embedded. In order to parse your outputed sources as
+part of the build, you just need to add it:
+
+```javascript
+/**
+ * Grunt project configuration.
+ */
+module.exports = function(grunt) {
+    // configuration for the plugins.
+    grunt.initConfig({
+        tsdlocal : {
+            dist : {
+                files : [
+                    {
+                        expand: true,
+                        cwd: 'dest/',
+                        src: ['**/*.js'],
+                        dest: 'dest/'
+                    }
+                ]
+            }
+        }
+    });
+
+    // load NPM tasks:
+    grunt.loadNpmTasks('tsdlocal');
+
+    // register our task:
+    grunt.registerTask('default', ['tsdlocal']);
+};
+```
+
+Using the same source and destination works, since the task will first read the file,
+then process it, and only after rewriting it.
+
+This is equivalent with running `tsdlocal --parsejs` for each js file.
+
 ## Note
 
 There is a high chance that the local .d.ts to still need a bit
@@ -48,6 +87,7 @@ The static type checking will still function as expected.
 
 ## ChangeLog
 
-v0.1.1  2015-07-14  Documentation update.
-v0.1.0  2015-07-10  Initial implementation.
+* v0.1.2  2015-07-15  Added Grunt task.
+* v0.1.1  2015-07-14  Documentation update.
+* v0.1.0  2015-07-10  Initial implementation.
 

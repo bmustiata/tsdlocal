@@ -18,6 +18,21 @@ module.exports = function(grunt) {
                         "src/main/core/**/*.d.ts"
                     ]
                 }]
+            },
+
+            "grunt" : {
+                options: {
+                    module : 'commonjs',
+                    sourceMap: true,
+                    declaration: true,
+                },
+                files: [{
+                    dest: "tasks/tsdlocal.js",
+                    src: [
+                        "src/main/grunt/**/*.ts",
+                        "src/main/grunt/**/*.d.ts"
+                    ]
+                }]
             }
         },
 
@@ -34,6 +49,10 @@ module.exports = function(grunt) {
         clean: {
             dist : [
                 "target/"
+            ],
+
+            grunt : [
+                "tasks/"
             ]
         }
     });
@@ -45,6 +64,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sync');
 
     // register our tasks:
-    grunt.registerTask('default', ['clean:dist', 'typescript:dist', 'sync:dist']);
+    grunt.registerTask('default', ['clean', 'typescript', 'sync']);
 };
 

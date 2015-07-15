@@ -1,3 +1,45 @@
+/// <reference path="../../../typings/node/node.local.d.ts"/>
+/// <reference path="../../../typings/nomnom/nomnom.local.d.ts"/>
+/// <reference path="../../../typings/colors/colors.local.d.ts"/>
+/// <reference path="../../../typings/mkdirp/mkdirp.local.d.ts"/>
+var path = require("path"); // __require__path
+var fs = require("fs"); // __require__fs
+var nomnom = require("nomnom"); // __require__nomnom
+var colors = require("colors/safe"); // __require__colors
+var mkdirp = require("mkdirp"); // __require__mkdirp
+/// <reference path="../../../typings/shelljs/shelljs.local.d.ts" />
+/// <reference path="ContentTransformer"/>
+/**
+ * Transforms the definition and requires from a file, into local modules.
+ */
+var DefinitionTransformer = (function () {
+    function DefinitionTransformer() {
+    }
+    /**
+     * Transforms the definitions from the file, from external
+     * modules into local modules.
+     */
+    DefinitionTransformer.prototype.transform = function (content) {
+        var lines = content.split(/\n/);
+        for (var i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/(\s*)declare module ["'](.*)["']/, function (subString) {
+                var matches = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    matches[_i - 1] = arguments[_i];
+                }
+                return matches[0] + "declare module " + DefinitionTransformer._moduleName(matches[1]);
+            });
+        }
+        return lines.join("\n");
+    };
+    /**
+     * Returns the module name for the actual module.
+     */
+    DefinitionTransformer._moduleName = function (name) {
+        return "__require__" + name.replace(/\W/, "_");
+    };
+    return DefinitionTransformer;
+})();
 /// <reference path="ContentTransformer"/>
 /**
  * Transforms an existing class, replacing all the `__require__x` instances,
@@ -14,39 +56,6 @@ var CodeTransformer = (function () {
     };
     return CodeTransformer;
 })();
-/// <reference path="../../../typings/shelljs/shelljs.local.d.ts" />
-/// <reference path="ContentTransformer"/>
-/**
- * Transforms the definition and requires from a file, into local modules.
- */
-var DefinitionTransformer = (function () {
-    function DefinitionTransformer() {
-    }
-    /**
-     * Transforms the definitions from the file, from external
-     * modules into local modules.
-     */
-    DefinitionTransformer.prototype.transform = function (content) {
-        var lines = content.split(/\n/);
-        for (var i = 0; i < lines.length; i++) {
-            lines[i] = lines[i].replace(/(\s*)declare module "(.*)/, function (subString) {
-                var matches = [];
-                for (var _i = 1; _i < arguments.length; _i++) {
-                    matches[_i - 1] = arguments[_i];
-                }
-                return matches[0] + "declare module " + matches[1];
-            });
-        }
-        return lines.join("\n");
-    };
-    return DefinitionTransformer;
-})();
-/// <reference path="../../../typings/node/node.local.d.ts"/>
-/// <reference path="../../../typings/nomnom/nomnom.local.d.ts"/>
-/// <reference path="../../../typings/colors/colors.local.d.ts"/>
-var fs = __require__fs; // require("fs")
-var nomnom = __require__nomnom; // require("nomnom")
-var colors = __require__colors; // require("colors/safe")
 /// <reference path="ContentTransformer"/>
 /// <reference path="requires"/>
 /**
@@ -87,4 +96,3 @@ else {
     contentTransformer = new DefinitionTransformer();
 }
 new FileParser(contentTransformer).parse(programArguments._[0], programArguments._[1]);
-//# sourceMappingURL=out.js.map
