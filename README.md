@@ -99,6 +99,7 @@ The static type checking will still function as expected.
 
 ## ChangeLog
 
+* v0.1.3  2015-07-15  Use v0.1.2 grunt task to build itself.
 * v0.1.2  2015-07-15  Added Grunt task.
 * v0.1.1  2015-07-14  Documentation update.
 * v0.1.0  2015-07-10  Initial implementation.

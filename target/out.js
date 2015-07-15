@@ -1,12 +1,19 @@
-/// <reference path="../../../typings/node/node.local.d.ts"/>
-/// <reference path="../../../typings/nomnom/nomnom.local.d.ts"/>
-/// <reference path="../../../typings/colors/colors.local.d.ts"/>
-/// <reference path="../../../typings/mkdirp/mkdirp.local.d.ts"/>
-var path = require("path"); // __require__path
-var fs = require("fs"); // __require__fs
-var nomnom = require("nomnom"); // __require__nomnom
-var colors = require("colors/safe"); // __require__colors
-var mkdirp = require("mkdirp"); // __require__mkdirp
+/// <reference path="ContentTransformer"/>
+/**
+ * Transforms an existing class, replacing all the `__require__x` instances,
+ * with the call to `require("x")` that is specified in the comment following
+ * the import.
+ */
+var CodeTransformer = (function () {
+    function CodeTransformer() {
+    }
+    CodeTransformer.prototype.transform = function (content) {
+        return content.split(/\n/)
+            .map(function (line) { return line.replace(/(__require__.*?);(\s*\/\/\s*)(.*)$/, "$3;$2$1"); })
+            .join("\n");
+    };
+    return CodeTransformer;
+})();
 /// <reference path="../../../typings/shelljs/shelljs.local.d.ts" />
 /// <reference path="ContentTransformer"/>
 /**
@@ -40,22 +47,15 @@ var DefinitionTransformer = (function () {
     };
     return DefinitionTransformer;
 })();
-/// <reference path="ContentTransformer"/>
-/**
- * Transforms an existing class, replacing all the `__require__x` instances,
- * with the call to `require("x")` that is specified in the comment following
- * the import.
- */
-var CodeTransformer = (function () {
-    function CodeTransformer() {
-    }
-    CodeTransformer.prototype.transform = function (content) {
-        return content.split(/\n/)
-            .map(function (line) { return line.replace(/(__require__.*?);(\s*\/\/\s*)(.*)$/, "$3;$2$1"); })
-            .join("\n");
-    };
-    return CodeTransformer;
-})();
+/// <reference path="../../../typings/node/node.local.d.ts"/>
+/// <reference path="../../../typings/nomnom/nomnom.local.d.ts"/>
+/// <reference path="../../../typings/colors/colors.local.d.ts"/>
+/// <reference path="../../../typings/mkdirp/mkdirp.local.d.ts"/>
+var path = require("path"); // __require__path
+var fs = require("fs"); // __require__fs
+var nomnom = require("nomnom"); // __require__nomnom
+var colors = require("colors/safe"); // __require__colors
+var mkdirp = require("mkdirp"); // __require__mkdirp
 /// <reference path="ContentTransformer"/>
 /// <reference path="requires"/>
 /**
@@ -96,3 +96,4 @@ else {
     contentTransformer = new DefinitionTransformer();
 }
 new FileParser(contentTransformer).parse(programArguments._[0], programArguments._[1]);
+//# sourceMappingURL=out.js.map
