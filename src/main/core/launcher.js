@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require("./out-local.js");
+require("./out.js");
