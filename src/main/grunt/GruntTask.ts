@@ -1,5 +1,6 @@
 /// <reference path="../core/FileParser"/>
 /// <reference path="../core/CodeTransformer"/>
+/// <reference path="../core/DefinitionTransformer"/>
 
 interface Grunt {
 	registerMultiTask(name: string, description: string, callback: Function);
@@ -9,14 +10,21 @@ interface Grunt {
  * The actual grunt task that will do the file parsing using the code transformer.
  */
 module.exports = function(grunt : Grunt) {
-	var parser = new FileParser(new CodeTransformer());
-	
 	grunt.registerMultiTask("tsdlocal", "Parse typescript generated javascript files.", function() {
+		var generateDefinitions : boolean = this.data && this.data.options && this.data.options.generateDefinitions;
+		var parser;
+		
+		if (generateDefinitions) {
+			parser = new FileParser(new DefinitionTransformer());
+		} else {
+			parser = new FileParser(new CodeTransformer());
+		}
+	
 		this.files.filter(file => fs.statSync(file.src[0]).isFile())
 			.forEach(file => { 
 				ensureFolderExists(file.dest);
 				parser.parse(file.src[0], file.dest);
-				console.log(colors.green("Wrote " + file.dest));
+				console.log("Wrote " + colors.cyan(file.dest));
 			});
 	});
 }

@@ -2,6 +2,7 @@
 /// <reference path="../typings/nomnom/nomnom.local.d.ts" />
 /// <reference path="../typings/colors/colors.local.d.ts" />
 /// <reference path="../typings/mkdirp/mkdirp.local.d.ts" />
+/// <reference path="../typings/shelljs/shelljs.local.d.ts" />
 /**
  * Transforms the given content into something else.
  */
@@ -33,6 +34,20 @@ declare class FileParser {
  */
 declare class CodeTransformer implements ContentTransformer {
     transform(content: string): string;
+}
+/**
+ * Transforms the definition and requires from a file, into local modules.
+ */
+declare class DefinitionTransformer implements ContentTransformer {
+    /**
+     * Transforms the definitions from the file, from external
+     * modules into local modules.
+     */
+    transform(content: string): string;
+    /**
+     * Returns the module name for the actual module.
+     */
+    private static _moduleName(name);
 }
 interface Grunt {
     registerMultiTask(name: string, description: string, callback: Function): any;

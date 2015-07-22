@@ -40,19 +40,60 @@ var CodeTransformer = (function () {
     };
     return CodeTransformer;
 })();
+/// <reference path="../../../typings/shelljs/shelljs.local.d.ts" />
+/// <reference path="ContentTransformer"/>
+/**
+ * Transforms the definition and requires from a file, into local modules.
+ */
+var DefinitionTransformer = (function () {
+    function DefinitionTransformer() {
+    }
+    /**
+     * Transforms the definitions from the file, from external
+     * modules into local modules.
+     */
+    DefinitionTransformer.prototype.transform = function (content) {
+        var lines = content.split(/\n/);
+        for (var i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].replace(/(\s*)declare module ["'](.*)["']/, function (subString) {
+                var matches = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    matches[_i - 1] = arguments[_i];
+                }
+                return matches[0] + "declare module " + DefinitionTransformer._moduleName(matches[1]);
+            });
+        }
+        return lines.join("\n");
+    };
+    /**
+     * Returns the module name for the actual module.
+     */
+    DefinitionTransformer._moduleName = function (name) {
+        return "__require__" + name.replace(/\W/, "_");
+    };
+    return DefinitionTransformer;
+})();
 /// <reference path="../core/FileParser"/>
 /// <reference path="../core/CodeTransformer"/>
+/// <reference path="../core/DefinitionTransformer"/>
 /**
  * The actual grunt task that will do the file parsing using the code transformer.
  */
 module.exports = function (grunt) {
-    var parser = new FileParser(new CodeTransformer());
     grunt.registerMultiTask("tsdlocal", "Parse typescript generated javascript files.", function () {
+        var generateDefinitions = this.data && this.data.options && this.data.options.generateDefinitions;
+        var parser;
+        if (generateDefinitions) {
+            parser = new FileParser(new DefinitionTransformer());
+        }
+        else {
+            parser = new FileParser(new CodeTransformer());
+        }
         this.files.filter(function (file) { return fs.statSync(file.src[0]).isFile(); })
             .forEach(function (file) {
             ensureFolderExists(file.dest);
             parser.parse(file.src[0], file.dest);
-            console.log(colors.green("Wrote " + file.dest));
+            console.log("Wrote " + colors.cyan(file.dest));
         });
     });
 };
