@@ -35,7 +35,7 @@ var CodeTransformer = (function () {
     }
     CodeTransformer.prototype.transform = function (content) {
         return content.split(/\n/)
-            .map(function (line) { return line.replace(/(__require__.*?);(\s*\/\/\s*)(.*)$/, "$3;$2$1"); })
+            .map(function (line) { return line.replace(/(__require__[\w\d]*)(.*?);(\s*\/\/\s*)(.*)$/, "$4$2;$3$1"); })
             .join("\n");
     };
     return CodeTransformer;

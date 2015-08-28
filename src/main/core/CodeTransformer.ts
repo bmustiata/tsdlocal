@@ -9,7 +9,7 @@
 class CodeTransformer implements ContentTransformer {
 	transform(content : string) : string {
 		return content.split(/\n/)
-			.map(line => line.replace(/(__require__.*?);(\s*\/\/\s*)(.*)$/, "$3;$2$1"))
+			.map(line => line.replace(/(__require__[\w\d]*)(.*?);(\s*\/\/\s*)(.*)$/, "$4$2;$3$1"))
 			.join("\n");
 	}
 }
