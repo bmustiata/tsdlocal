@@ -122,6 +122,7 @@ The static type checking will still function as expected.
 
 ## ChangeLog
 
+* v0.1.6  2015-08-28  **Bugfix** Imports that have also classes are working. (`import A = __require__x.A;`)
 * v0.1.5  2015-07-22  The grunt task can also parse definitions now.
 * v0.1.4  2015-07-20  Use out.js for the standalone launcher, duh.
 * v0.1.3  2015-07-15  Use v0.1.2 grunt task to build itself.
